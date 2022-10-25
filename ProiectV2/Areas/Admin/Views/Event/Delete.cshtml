@@ -1,0 +1,22 @@
+﻿@model Event
+@{
+    ViewData["Title"] = "Delete";
+}
+<form method="post">
+    <div class = "border p-3">
+        <h2 class = "text-primary">Are you sure you want to delete this event?</h2>
+        <input asp-for="EventId" type ="hidden"/>
+        <div class="mb-3">
+            <label asp-for="Name">Event Name</label>
+            <input asp-for="Name" class="form-control" disabled/> 
+        </div>
+        <button type = "submit" class="btn btn-primary">Delete</button>
+        <a asp-area="Admin" asp-controller="Event" asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

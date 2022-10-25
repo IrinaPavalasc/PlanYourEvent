@@ -1,0 +1,50 @@
+﻿@model User
+@{
+    ViewData["Title"] = "Edit";
+}
+<form method="post" enctype="multipart/form-data">
+    <div class = "border p-3">
+        <h2 class = "text-primary">Edit Profile</h2>
+        <input asp-for="Id" type ="hidden"/>
+        <input asp-for="ConcurrencyStamp" type = "hidden"/>
+        <input asp-for="Email" type = "hidden"/>
+        <input asp-for="Role" type = "hidden"/>
+        <input asp-for="ImageUrl" type ="hidden"/>
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+       <div class="mb-3">   
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" disabled/>
+            
+        </div>
+        <div class="mb-3">
+            <label asp-for="PhoneNumber" class="form-label"></label>
+            <input asp-for="PhoneNumber" class="form-control"/>
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Country" class="form-label"></label>
+            <input asp-for="Country" class="form-control" id="country-input"/>
+            <span asp-validation-for="Country" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ImageUrl">Profile Picture</label>
+            <input type = "file" name="file"  class="form-control"/>
+        </div>
+
+        <button type = "submit" class="btn btn-primary">Update</button>
+        <a asp-area="Identity" asp-controller="User" asp-action="Index" asp-route-Id="@Model.Id" class="btn btn-secondary">Back to List</a>
+   
+    </div>
+
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

@@ -1,0 +1,116 @@
+﻿@model ProiectLicenta.Models.ViewModels.VenueViewModel
+@using Microsoft.Extensions.Options
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+@inject IOptions<StripeSettings> Stripe
+@{
+    ViewData["Title"] = "Venue Details";
+}
+
+
+<div class="container card p-5 row">
+    <div class="card-header">
+        <div class="col-lg-12 cal-md-6 box">
+            <div>
+                    <img src="@Model.Venue.ImageUrl" class="card-img-top image-fluid" style="height: 45vh; object-fit: cover; filter: brightness(50%)">
+            </div>
+               
+            <h1 class="centered " id = "venue_name">@Model.Venue.Name</h1>   
+        </div>
+    </div>
+    <div class="card-body container">
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <div class="row pl-2 pb-2 ">
+                        <h5 style="text-align:center; text-transform: inherit;" >@Model.Venue.Description</h5>    
+                    </div>
+                    <div class="col">
+                       
+                        <div class="row pl-2 pb-2 text-secondary">
+                            <h5 style="text-transform: inherit;">&#9642 Maximum Capacity: <b>@Model.Venue.Capacity</b></h5>
+                        </div>
+                        <div class="row pl-2 pb-2 text-secondary">
+                            <h5 style="text-transform: inherit;">&#9642 Added By: <a class="text-info" asp-area="Identity" asp-controller = "User" asp-action="Index" asp-route-Id="@Model.User.Id">@Model.User.Name</a> &nbsp 
+                        </div>
+                        <div class="row pl-2 pb-2 text-secondary">
+                            <h5 style="text-transform: inherit;" id = "address">&#9642 @Model.Address.Country, @Model.Address.City, @Model.Address.StreetName, @Model.Address.StreetNumber &nbsp &nbsp</h5>
+                            
+                        </div>
+                        <div class="row pl-2 pb-2 text-secondary">
+                            
+                            <h5 style="text-transform: inherit;"> &#9642 This venue is suitable for: 
+                            @foreach(var even in Model.Venue.Event)
+                                {
+                                     <span class="badge bg-light">@even.Name</span>
+                                } 
+                            </h5>
+                        </div>
+                         <div class="row pl-2 pb-2 text-secondary">
+                            <h5 style="text-transform: inherit;"> &#9642 Added on: @Model.Venue.CreationDate.Day/@Model.Venue.CreationDate.Month/@Model.Venue.CreationDate.Year</h5>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <h5 style="text-transform: inherit;" >@Model.Venue.Name</h5>
+                        <div id="map" style = "height:80%; width:90%;"></div>
+                    </div>
+                    </div>
+                     
+
+                </div>   
+                <div class="row">
+                    <input id ="venueId" name="venueId" class= "form-control" asp-for = "@Model.Venue.VenueId" hidden/>
+                    @if(User.IsInRole("Client")){
+                        <div class="col-6">
+                            <label for="start">Check-in</label>
+                            <input id ="start" name="start" class= "form-control" readonly/>
+
+                        </div>
+                         <div class="col-6">
+                            <label for="end">Check-out</label>
+                            <input id ="end" name="end" class= "form-control" readonly/>
+                         </div>
+                    }
+                </div>
+                
+            <div class="text-center p-3">
+                <div id = "calendarShow"></div>
+            </div>
+                
+            <table id="daysTable" style="display:none;">
+                    @foreach(var day in Model.CalendarList)
+                    {
+                        <tr>
+                            <td>@day.CalendarId</td>
+                            <td>@day.Date</td>
+                            <td>@day.Available</td>
+                            <td>@day.PricePerDay</td>
+                            <td>@day.VenueId</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    
+    <div class="card-footer">
+        <div class="btn-group d-flex" >
+            <a class="btn btn-primary" asp-area="Client" asp-controller="Home" asp-action="Index"> Back to Venues </a> &nbsp
+            @if(User.IsInRole("Client")){
+                <a class="btn btn-success" onclick="MakeReservation();"> Make Reservation </a>
+            }
+        
+            
+
+                         
+        </div>
+    </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <partial name="_CalendarShowScriptsPartial" />
+    <script src="~/js/map.js" asp-append-version="true"></script>
+ 
+}

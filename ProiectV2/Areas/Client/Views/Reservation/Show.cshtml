@@ -1,0 +1,134 @@
+﻿@model ProiectLicenta.Models.ViewModels.ReservationViewModel
+@{
+    ViewData["Title"] = "Show";
+}
+
+<form method="post" asp-action="Create">
+    <div class="container p-3">
+        <div class="card">
+            <div class="card-header">
+                <div class="container row">
+                    <div class="col-6"><h3 class="card-title text-primary">Make a Reservation</h3></div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="container p-3 row">
+                    <input asp-for="Venue.VenueId" class="form-control" hidden/>
+                    <input asp-for="Venue.Name" class="form-control" hidden/>
+                    <input asp-for="Provider.Id" class="form-control" hidden/>
+                    
+                    <div class="col-6">
+                        <div class="row ">
+								<div class="col-3 mt-3">
+									<label>Name:</label>
+								</div>
+								<div class="col-9">
+									<input asp-for="Reservation.ClientName" class="form-control" />
+									<span asp-validation-for="Reservation.ClientName" class="text-danger"></span>
+								</div>
+							</div>
+                            <div class="row my-1">
+								<div class="col-3 mt-3">
+									<label>Email:</label>
+								</div>
+								<div class="col-9">
+									<input asp-for="Reservation.ClientEmail" class="form-control" />
+									<span asp-validation-for="Reservation.ClientEmail" class="text-danger"></span>
+								</div>
+							</div>
+							<div class="row my-1">
+								<div class="col-3 mt-3">
+									<label>Phone:</label>
+								</div>
+								<div class="col-9">
+									<input asp-for="Reservation.ClientPhoneNumber" class="form-control" />
+									<span asp-validation-for="Reservation.ClientPhoneNumber" class="text-danger"></span>
+								</div>
+							</div>
+                            <div class="row my-1">
+								<div class="col-3 mt-3">
+									<label>Guests:</label>
+								</div>
+								<div class="col-9">
+									<input asp-for="Reservation.GuestNumber" class="form-control" />
+									<span asp-validation-for="Reservation.GuestNumber" class="text-danger"></span>
+								</div>
+							</div>
+                            <div class="row my-1">
+                                 <div class="col-3 mt-3">
+									<label asp-for="Reservation.EventId" >Event:</label>
+								</div>
+                                 <div class="col-9">
+								    <select asp-for="Reservation.EventId" asp-items="@ViewBag.EventTypes" class ="form-select" aria-required="true">
+                                        <option disabled selected class="form-control">-Select-</option>
+                                    </select>
+           
+                                    <span asp-validation-for="Reservation.EventId" class="text-danger"></span>
+                                </div>
+                            </div>
+						    <div class="row">
+                                <div class="mb-3 col-6">
+                                    <label asp-for="Reservation.StartDate">Check-in:</label>
+                                    <input asp-for="Reservation.StartDate"  class="form-control" readonly/>
+  
+                                </div>
+                                <div class="mb-3 col-6">
+                                    <label asp-for="Reservation.EndDate">Check-out:</label>
+                                    <input asp-for="Reservation.EndDate"  class="form-control" readonly/>
+ 
+                                </div>
+                            </div>
+                        <div> 
+                            <label asp-for="Reservation.TotalPrice" class="badge bg-danger">Total Price: @Model.Reservation.TotalPrice $</label>
+                            <input asp-for="Reservation.TotalPrice" class="form-control" hidden/>
+                        </div>
+                    </div>
+                  
+                      <div class="col-6">
+                         <div class="row">
+                            <h4 class="text-info">Venue Details</h4>
+                        </div>
+                        <div class="row">
+                            <h5>&#9642 Name: <b>@Model.Venue.Name</b></h5>
+                        </div>
+                        <div class="row">
+                            <h5>&#9642 Capacity: <b>@Model.Venue.Capacity</b></h5>
+                        </div>
+                        <div class="row pb-3 text-secondary">
+                            <h5>&#9642 @Model.Address.Country, @Model.Address.City, @Model.Address.StreetName @Model.Address.StreetNumber</h5>
+                        </div>
+                         <div class="row">
+                            <h4 class="text-info">Owner Details</h4>
+                        </div>
+                        <div class="row text-secondary">
+                            <h5>&#9642 <a asp-area="Identity" asp-controller = "User" asp-action="Index" asp-route-userId="@Model.Provider.Id">@Model.Provider.Name</a> 
+                        </div>
+                        <div class="row">
+                            <h5>&#9642<i class="bi bi-envelope"></i>&nbsp @Model.Provider.Email</>
+                        </div>
+                        <div class="row">
+                            <h5>&#9642<i class="bi bi-telephone"></i>&nbsp @Model.Provider.PhoneNumber</h5>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="col-12 btn-group d-flex"> 
+                    <a  class="btn btn-primary" asp-area="Client" asp-controller="Venue" asp-action="Details" asp-route-venueId="@Model.Venue.VenueId">Back to Details</a> &nbsp   
+                    
+                    <button type = "submit" class="btn btn-success">Finalize</button> 
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+    <partial name="_ValidationScriptsPartial" />
+
+    }
+}
+
+

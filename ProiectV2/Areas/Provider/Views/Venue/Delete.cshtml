@@ -1,0 +1,28 @@
+﻿@model ProiectLicenta.Models.ViewModels.VenueViewModel
+<form method="post">
+    <div class = "border p-3">
+        <h2 class = "text-primary">Are you sure you want to delete this venue?</h2>
+        <input asp-for="Venue.VenueId" type ="hidden"/>
+        <input asp-for="Venue.AddressId" type ="hidden"/>
+        <input asp-for="Venue.ImageUrl" type ="hidden"/>
+        <input asp-for="Venue.ProviderId" type ="hidden"/>
+        <div class="pb-3">
+            <label asp-for="Venue.Name">Venue Name</label>
+            <input asp-for="Venue.Name" class="form-control" disabled/>
+        </div>
+        <button type = "submit" class="btn btn-primary">Delete</button>
+        <a asp-area="Provider" asp-controller="Venue" asp-action="Index" asp-route-userId ="@Model.Venue.ProviderId" class="btn btn-secondary">Back to List</a>
+   
+    </div>
+
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
+
+
+
+

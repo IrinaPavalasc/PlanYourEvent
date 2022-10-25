@@ -1,0 +1,153 @@
+﻿@model ProiectLicenta.Models.ViewModels.SearchViewModel
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+@{
+    ViewData["Title"] = "View Venues";
+}
+
+<div class = "container">  
+    @if (ViewBag.UserId != null)
+    {
+        <div  class="row pt-4">
+            <ul class="nav nav-tabs">
+                  <li class="nav-item">
+                    <a class="nav-link " asp-area="Identity" asp-controller="User" asp-action="Index" asp-route-Id="@ViewBag.UserId">Profile</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" asp-area="Client" asp-controller="Home" asp-action="Index" asp-route-Id="@ViewBag.UserId">@ViewBag.UserName's Venues</a>
+                  </li>   
+          </ul>
+    </div>
+    }
+    else
+    {
+     <div class="card m-3">
+        <div class="card-body">
+            <div class="card-body">
+                <form method="post" asp-action="Index">
+                    <div class="row">
+                        <div class="col">
+                            <label asp-for="StartDate">Check-in</label>
+                            <input asp-for="StartDate" id="StartDate" name = "StartDate" class="form-control" type="date" />
+                            
+                        </div>
+                        
+                        <div class="col">
+                            <label asp-for="EndDate">Check-in</label>
+                            <input asp-for="EndDate" id="EndDate" name = "EndDate" class="form-control" type="date" />
+                        </div>
+                        
+                        <div class="col">
+                            <label asp-for="MaxCapacity">Capacity</label>
+                            <input asp-for="MaxCapacity" type="number" min="0" name="MaxCapacity" id="MaxCapacity" class="form-control"/>    
+                        </div>
+                      
+                        <div class="col">
+                            <label asp-for="Country">Country</label>
+                            <input asp-for="Country" type="text" name="Country" id="country-input" class="form-control"/>    
+                        </div>
+                   
+                         <div class="col">
+                            <label asp-for="City">City</label>
+                            <input asp-for="City" type="text" name="City" id="locality-input" class="form-control"/>    
+                        </div>
+                     
+                        <div class="col">
+                            <div class="form-check pl-2">
+                                    <input class="form-check-input" type="checkbox" name="Desc" value="true" id="Desc">
+                                    <label  class="form-check-label" for="Desc">
+                                    Search in description.
+                                    </label>
+                                    
+                            </div>
+                            <div class="btn-group">
+                                <input asp-for="Search" type="search" placeholder="Search Venue..." name="Search"/>
+                                <button type="submit" value="" class="btn btn-sm btn-primary"><i class="bi bi-search"></i></button>
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="mt-3 row">
+                        <label>Search by event types: </label>
+                        @for(int i = 0; i < Model.Events.Count; i++){
+                            <div class= "col-3">
+                                 <input  type="hidden" asp-for="@Model.Events[i].Value">
+                                 <input  type="hidden" asp-for="@Model.Events[i].Text">
+                                 <input  asp-for="Events[i].Selected" class="form-check-input" id="event@i">
+                                 <label class="form-check-label" for="event@i"> @Model.Events[i].Text</label>
+                            </div>
+                        }
+                     </div>
+            
+                </form>  
+            </div>
+        </div>
+    </div>
+    }
+    <div class="row pb-3">
+        @foreach(var obj in Model.VenueList)
+        {
+        <div class="col-lg-4 col-md-6">
+            <div class="row p-3">
+                <div class=" col-12 p-2">
+                    <div class="card">
+                    
+                        <div>
+                        <img src="@obj.Venue.ImageUrl" class="card-img-top img-fluid" style="height: 30vh; object-fit:cover;">
+                        <div class="darken"></div>
+                        </div>
+                   
+                        <h4 class="card-title text-center text-primary pt-2">
+                                @obj.Venue.Name
+                            </h4>
+                        <div class="card-body">
+                       
+                            <p>&#9642 &nbsp @obj.Address.Country, @obj.Address.City</p>
+                            <p>&#9642 &nbsp Max Capacity: @obj.Venue.Capacity</p>
+                            <p> &#9642 &nbsp This venue is suitable for:
+                                    @foreach(var even in obj.Venue.Event)
+                                    {
+                                        <span class="badge bg-light">@even.Name</span>
+                                    }
+                             </p>
+                            <p>&#9642 &nbsp Added By: <a class="text-info" asp-area="Identity" asp-controller = "User" asp-action="Index" asp-route-Id="@obj.User.Id">@obj.User.Name</a> &nbsp &#9642 <small>@obj.Venue.CreationDate.Day/@obj.Venue.CreationDate.Month/@obj.Venue.CreationDate.Year</small></p>
+                            <div class="btn-group d-flex" >
+                                    <a class="btn btn-primary btn-sm" asp-area="Client" asp-controller = "Home" asp-action="Details" asp-route-id="@obj.Venue.VenueId">See more <i class="bi bi-three-dots-vertical"></i></a> &nbsp
+                                   
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+ </div>  
+    
+
+
+<div class="modal fade" id="availability-calendar" tabindex="-1" role="dialog" aria-labelledby="availability-calendar">
+	<div class="modal-dialog" style="width:501px !important;margin:0 auto;">
+        <div class="modal-content">
+			<div class="modal-header row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+					<h2 class="modal-title heading-section">Calendar #01</h2>
+				</div>
+			</div>
+			<div class="modal-body row">
+				<div class="col-md-12">
+					<div class="calendar calendar-first" id="calendar_first">
+				    <div class="calendar_header">
+				        <button class="switch-month switch-left"> <i class="fa fa-chevron-left"></i></button>
+				         <h2></h2>
+				        <button class="switch-month switch-right"> <i class="fa fa-chevron-right"></i></button>
+				    </div>
+				    <div class="calendar_weekdays"></div>
+				    <div class="calendar_content"></div>
+					</div>
+				</div>
+			</div>
+        </div>
+	</div>
+</div>
+

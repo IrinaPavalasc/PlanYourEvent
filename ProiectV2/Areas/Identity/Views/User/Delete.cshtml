@@ -1,0 +1,32 @@
+﻿@model User
+@{
+    ViewData["Title"] = "Delete";
+}
+<form method="post"  id="logoutForm">
+    <div class = "border p-3">
+        <h2 class = "text-primary">Are you sure you want to delete this account?</h2>
+        <div class="mb-3">
+            <input asp-for="Id" type = "hidden"/>
+            <input asp-for="ImageUrl" type = "hidden"/>
+            <input asp-for="ConcurrencyStamp" type = "hidden"/>
+            <label asp-for="Name">Name</label>
+            <input asp-for="Name" class="form-control" disabled/> 
+            <label asp-for="Email">Email</label>
+            <input asp-for="Email" rows ="4" class="form-control"  disabled>
+            
+        </div>
+
+        <button id="logout" type = "submit" class="btn btn-primary">Delete</button>
+        <a asp-area="Identity" asp-controller="User" asp-action="Index" asp-route-Id="@Model.Id" class="btn btn-secondary">Back to List</a>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
+
+
+
+

@@ -1,0 +1,31 @@
+﻿@model Event
+<form method="post">
+    <div class = "border p-3">
+        <h2 class = "text-primary">Edit Event</h2>
+        <input asp-for="EventId" type ="hidden"/>
+        <div class="mb-3">
+            <label asp-for="Name">Event Name</label>
+            <input asp-for="Name" class="form-control"/>
+            <span asp-validation-for ="Name" class="text-danger"></span>
+        </div>
+        
+        <button type = "submit" class="btn btn-primary">Update</button>
+        <a asp-area="Admin" asp-controller="Event" asp-action="Index" class="btn btn-secondary">Back to List</a>
+   
+    </div>
+
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
+
+
+
+
+
+
+
+

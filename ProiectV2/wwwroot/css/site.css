@@ -1,0 +1,46 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+
+
+
+.box{
+    position: relative;
+}
+.centered{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: antiquewhite;
+    z-index: 2;
+}
+
+.lower-centered {
+    position: absolute;
+    top: 75%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+    color: antiquewhite;
+}
+
+.fc-event-time {
+    display: none;
+}
+

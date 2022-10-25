@@ -1,0 +1,73 @@
+﻿@model ProiectLicenta.Models.ViewModels.VenueViewModel
+<form method="post" enctype="multipart/form-data">
+    <div class = "border p-3 row">
+        <h2 class = "text-primary">Edit Venue</h2>
+        <input asp-for="Venue.VenueId" type ="hidden"/>
+        <input asp-for="Venue.ProviderId" type ="hidden"/>
+        <input asp-for="Venue.ImageUrl" type ="hidden"/>
+
+        <div class="mb-3">
+            <label asp-for="Venue.Name">Venue Name</label>
+            <input asp-for="Venue.Name" class="form-control"/>
+            <span asp-validation-for ="Venue.Name" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Venue.Description">Description</label>
+            <textarea asp-for="Venue.Description" rows ="4" class="form-control"></textarea>
+            <span asp-validation-for ="Venue.Description" class="text-danger"></span>
+        </div>
+        <div class="mb-3 col-6" >
+            <label asp-for="Venue.Capacity">Capacity</label>
+            <input asp-for="Venue.Capacity" class="form-control"/>
+            <span asp-validation-for ="Venue.Capacity" class="text-danger"></span>
+        </div>
+        <div class="mb-3 col-6">
+            <label asp-for="Venue.ImageUrl">Venue Photo</label>
+            <input type = "file" name="file"  class="form-control"/>
+        </div>
+
+        <input asp-for="Address.AddressId" type = "hidden"/>
+         <div class="mb-3 col-6">
+            <label asp-for="Address.StreetName">Street Name</label>
+            <input asp-for="Address.StreetName" class="form-control" id="location-input"/>
+            <span asp-validation-for ="Address.StreetName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 col-6">
+            <label asp-for="Address.StreetNumber">Street Number</label>
+            <input asp-for="Address.StreetNumber" class="form-control" id="street_number-input"/>
+            <span asp-validation-for ="Address.StreetNumber" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 col-6">
+            <label asp-for="Address.Country">Country</label>
+            <input asp-for="Address.Country" class="form-control"  id="country-input"/>
+            <span asp-validation-for ="Address.Country" class="text-danger"></span>
+        </div>
+        <div class="mb-3 col-6">
+            <label asp-for="Address.City">City</label>
+            <input asp-for="Address.City" class="form-control" id="locality-input"/>
+            <span asp-validation-for ="Address.City" class="text-danger"></span>
+        </div>
+        
+        <div class="col-12">
+        <button type = "submit" class="btn btn-primary">Update</button>
+        <a asp-area="Provider" asp-controller="Venue" asp-action="Index" asp-route-userId ="@Model.Venue.ProviderId" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
+
+
+
+
+
+
+
+

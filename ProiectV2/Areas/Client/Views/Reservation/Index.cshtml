@@ -1,0 +1,185 @@
+﻿@model IEnumerable<ProiectLicenta.Models.ViewModels.ReservationViewModel>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+@{
+    var status = Context.Request.Query["status"];
+    var Pending = "text-primary";
+    var Cancelled = "text-primary";
+    var Approved = "text-primary";
+    var Paid = "text-primary";
+    var All = "text-primary";
+
+    switch (status)
+    {
+        case "Pending":
+            Pending = "active text-white";
+            break;
+        case "Cancelled":
+            Cancelled = "active text-white";
+            break;
+        case "Approved":
+            Approved = "active c";
+            break;
+        case "Paid":
+            Paid = "active text-white";
+            break;
+        case "All":
+            All = "active text-white";
+            break;
+        
+    }
+}       
+
+<div class="p-3">
+    <div class="row">
+        <div class="col">
+            <h2 class="text-primary">Your Reservations</h2>
+		</div>
+        <div class="col">
+            <ul class="list-group list-group-horizontal-sm">
+                <a style="text-decoration:none;" asp-area="Client" asp-controller="Reservation" asp-action="Index" asp-route-status="Approved">
+                    <li class="list-group-item @Approved" >Approved</li>
+                </a>
+                <a style="text-decoration:none;" asp-area="Client" asp-controller="Reservation" asp-action="Index" asp-route-status="Pending">
+                    <li class="list-group-item @Pending">Pending</li>
+                </a>
+                <a style="text-decoration:none;" asp-area="Client" asp-controller="Reservation" asp-action="Index" asp-route-status="Paid">
+                    <li class="list-group-item @Paid">Paid</li>
+                </a>
+                <a style="text-decoration:none;" asp-area="Client" asp-controller="Reservation" asp-action="Index" asp-route-status="Cancelled">
+                    <li class="list-group-item @Cancelled">Cancelled</li>
+                </a>             
+                <a style="text-decoration:none;" asp-area="Client" asp-controller="Reservation" asp-action="Index" asp-route-status="All">
+                    <li class="list-group-item @All">All</li>
+                </a>
+            </ul>
+
+		</div>
+	</div>
+    <br /><br />
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-sm">
+            <thead>
+                <tr>
+                    <th>
+                        Id
+			        </th>
+                    <th>
+                        Venue Info
+			        </th>
+                    <th>
+                        Provider Info
+			        </th>
+                    <th>
+                        Client Info
+			        </th>
+                    <th>
+                        Event Type
+			        </th>
+			        <th>
+				        Guest Nr.
+			        </th>
+                    <th>
+                        Check-in
+			        </th>
+			        <th>
+				        Check-out
+			        </th>
+                    <th>
+				        Total Price
+			        </th>
+                    <th>
+				        Status
+			        </th>
+                    <th>
+				        Payment Status
+			        </th>
+                    
+		        </tr>
+	        </thead>
+            <tbody>
+                @foreach(var obj in Model)
+                {
+                    <tr>
+                        <td>
+                            @obj.Reservation.ReservationId               
+				        </td>
+                        <td>
+                            @obj.Venue.Name                
+				        </td>
+                        <td>
+                            <a class="text-secondary" asp-area="Identity" asp-controller = "User" asp-action="Index" asp-route-Id="@obj.Provider.Id">@obj.Provider.Name</a>         
+				        </td>
+                        <td>
+                            @obj.Reservation.ClientName, @obj.Reservation.ClientEmail     
+				        </td>
+                        <td>
+                            @obj.Event.Name
+				        </td>
+                        <td>
+                            @obj.Reservation.GuestNumber
+				        </td>
+                        <td>
+                            @obj.Reservation.StartDate
+				        </td>
+                        <td>
+                            @obj.Reservation.EndDate
+				        </td>
+                        <td>
+                            @obj.Reservation.TotalPrice   
+				        </td>
+                        <td>
+                           @obj.Reservation.Status
+				        </td>
+                        <td>
+                           @obj.Reservation.PaymentStatus
+				        </td>
+
+                        <td>
+                            <div class="w-25 btn-group" role="group">     
+                                @if (User.IsInRole("Provider") && obj.Reservation.Status == "Pending")
+                                {   <form method="post" asp-action="ReservationApproval">
+                                    <input asp-for="@obj.Reservation.ReservationId" type="hidden">
+                                        <button type = "submit" class="btn btn-sm btn-success mx-1">Approve</button>
+                                    </form>
+                                    <form method="post" asp-action="ReservationCancellation">
+                                        <input asp-for="@obj.Reservation.ReservationId" type="hidden">
+                                        <button type = "submit"class="btn btn-sm btn-danger mx-1">Cancel</button>
+                                    </form>
+                                }
+                                else if (User.IsInRole("Provider") && obj.Reservation.Status == "Approved" && obj.Reservation.PaymentStatus == "Approved")
+                                {
+                                    <form method="post" asp-action="ReservationPaymentRefund">
+                                        <input asp-for="@obj.Reservation.ReservationId" type="hidden">
+                                        <button type = "submit" class="btn btn-sm btn-warning mx-1">Refund</button>
+                                    </form>
+                                }
+
+                                else if (User.IsInRole("Client") && (obj.Reservation.PaymentStatus == "Pending" && obj.Reservation.Status == "Approved"))
+                                {
+                                    <form method="post" asp-action="ReservationCancellation">
+                                        <input asp-for="@obj.Reservation.ReservationId" type="hidden">
+                                        <button type = "submit" class="btn btn-sm btn-danger mx-1">Cancel</button>
+                                    </form>
+                                    <form method="post" asp-action="ReservationPayment">
+                                        <input asp-for="@obj.Reservation.ReservationId" type="hidden">
+                                        <button type = "submit" class="btn btn-sm btn-warning mx-1">Pay</button>
+                                    </form>
+                                }
+                                else if (User.IsInRole("Client") && (obj.Reservation.PaymentStatus == "Pending" && obj.Reservation.Status == "Pending"))
+                                {
+                                    <form method="post" asp-action="ReservationCancellation">
+                                        <input asp-for="@obj.Reservation.ReservationId" type="hidden">
+                                        <button type = "submit" class="btn btn-sm btn-danger mx-1">Cancel</button>
+                                    </form>
+                                }
+               
+                        </div>
+				        </td>
+			        </tr>
+                }
+            </tbody>
+
+        </table>
+     </div>
+</div>

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Calendar>
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container">
+    <div class="text-center p-3">
+        <h3>@ViewBag.VenueName's Schedule</h3>
+        <div id = "calendar"></div>
+    </div>
+    <table id="daysTable" style="display:none;">
+        @foreach(var day in Model)
+        {
+            <tr>
+                <td>@day.CalendarId</td>
+                <td>@day.Date</td>
+                <td>@day.Available</td>
+                <td>@day.PricePerDay</td>
+                <td>@day.VenueId</td>
+            </tr>
+        }
+    </table>
+     <a asp-area="Provider" asp-controller="Venue" asp-action="Index" asp-route-userId ="@ViewBag.CurrentUserId" class="ms-3 btn btn-outline-secondary">Back to List</a>
+
+</div>
+
+<div class="modal fade" id="editCalendar" tabindex="-1" aria-labelledby="editCalendarLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editCalendarLabel">Edit Price & Availability</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body row">
+          <div class="form-floating col-9">
+               <input id="PricePerDay" class="form-control" type="number" min = "0" max="2000" required> 
+               <label for="PricePerDay">Price/Day</label>
+
+
+          </div>
+           <div class="form-check form-switch col-3">
+               <input id ="Availability" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+               <label class="form-check-label" for="flexSwitchCheckDefault">Reserved</label>
+           </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button id = "saveChanges" type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_CalendarEditScriptsPartial" />
+    
+}

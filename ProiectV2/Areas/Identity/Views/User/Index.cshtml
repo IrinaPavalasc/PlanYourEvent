@@ -1,0 +1,48 @@
+﻿@model User
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+@{
+    ViewData["Title"] = "Index";
+}
+@if(Model.Role == "Provider" || Model.Role == "Client"){
+    <div class="container p-2 d-inline-flex justify-content-center">
+        <div class="row col-8">
+            <div class="card p-2">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                    <a class="nav-link active" asp-area="Identity" asp-controller="User" asp-action="Index" asp-route-Id="@Model.Id">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" asp-area="Client" asp-controller="Home" asp-action="Index" asp-route-Id="@Model.Id">@Model.Name's Venues</a>
+                    </li>   
+                </ul>
+                <div class="text-center pt-3 pb-3">
+                    <img src="@Model.ImageUrl"  class=" img-fluid img-thumbnail" style="height: 40vh; object-fit:cover;">
+                </div>
+                <div class="col p-4">
+                        
+                        <div class="row"> 
+                            <h3><i class="bi bi-person-circle"></i>&nbsp @Model.Name</h3> 
+                        </div> 
+                        <div  class="row"> 
+                            <h5><i class="bi bi-telephone"></i>&nbsp @Model.PhoneNumber</h5> 
+                        </div> 
+                        <div class="row"> 
+                            <h5><i class="bi bi-envelope"></i>&nbsp @Model.Email</h5> 
+                        </div> 
+                        <div class="row"> 
+                            <h5><i class="bi bi-arrow-90deg-right"></i>&nbsp @Model.ProviderType</h5> 
+                        </div>
+                        <div class="row"> 
+                            <h5><i class="bi bi-house-door"></i>&nbsp From @Model.Country</h5> 
+                        </div>   
+                </div>
+                @if(UserManager.GetUserId(User) == Model.Id){
+                            <div class="btn-group"> 
+                                <a class="btn btn-sm btn-primary"asp-area= "Identity" asp-controller="User" asp-action="Edit" asp-route-Id="@Model.Id"><i class="bi bi-pencil-fill"></i> Edit</a>
+                            </div>
+                        }
+            </div>
+        </div>
+    </div>
+}
