@@ -28,25 +28,8 @@ Principalele tehnologii folosite în dezvoltarea aplicației sunt Microsoft SQL 
 
 ## Aplicația ”PlanYourEvent” - Prezentarea Platformei
 
-
 ### Diagrama fluxului aplicației pentru utilizator. 
 <img src="https://user-images.githubusercontent.com/61749906/197997180-095c4854-3f50-4215-8c1b-a5734dce3621.png" width="600" ></a>
-
-
-
-### Pagina principală.
-<img src="https://user-images.githubusercontent.com/61749906/198001870-9fa4a291-f980-4b3d-921f-32ff0c22c4df.png" width="600" ></a>
-
-
-
-### Detaliile unui anunț.
-<img src="https://user-images.githubusercontent.com/61749906/198000040-1f14dd4b-56e5-49be-b1c5-8b1f597a01e3.png" width="600" ></a>
-
-
-
-### Meniul de gestionare al locațiilor.
-<img src="https://user-images.githubusercontent.com/61749906/198001082-649d1146-5904-4318-a1da-dabf9d7d1558.png" width="600" ></a>
-
 
 ## Dezvoltări ulterioare
 
