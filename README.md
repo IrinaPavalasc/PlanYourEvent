@@ -1,10 +1,5 @@
-# FullCalendar
+##Lucrare de Licență - Facultatea de Matematică și Informatică, Universitate din București
 
-A full-sized drag & drop JavaScript event calendar
+#Aplicație Web ASP.NET pentru Postare și Căutare de Anunțuri pentru Locații de Evenimente
 
-- [Project website and demos](http://fullcalendar.io/)
-- [Documentation](http://fullcalendar.io/docs)
-- [Support](http://fullcalendar.io/support)
-- [Contributing](CONTRIBUTING.md)
-- [Changelog](CHANGELOG.md)
-- [License](LICENSE.txt)
+######Documentație: [Lucrare_de_Licenta_Pavalasc_Irina.pdf](https://github.com/IrinaPavalasc/PlanYourEvent/files/9868192/Lucrare_de_Licenta_Pavalasc_Irina.pdf)
